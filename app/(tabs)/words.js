@@ -35,7 +35,12 @@ const FlipCard = ({ isFlipped, cardStyle, RegularContent, FlippedContent }) => {
   });
 
   return (
-    <View style={{ position: "relative", alignItems: "center" }}>
+    <View
+      style={{
+        position: "relative",
+        alignItems: "center",
+      }}
+    >
       <Animated.View
         style={[
           { position: "absolute", backfaceVisibility: "hidden" },
@@ -120,7 +125,10 @@ const Words = () => {
   };
 
   return (
-    <ScrollView className="bg-[#f8f8f8] flex-1">
+    <ScrollView
+      className="bg-[#f8f8f8] flex-1"
+      style={{ padding: wp("4%"), marginTop: wp("7%") }}
+    >
       <View className="flex-row flex gap-3 justify-around items-center">
         {[
           { type: "mastered", label: "Mastered" },
@@ -141,9 +149,9 @@ const Words = () => {
               backgroundColor:
                 selectedButton === btn.type ? "#5dd62c" : "#0f0f0f",
             }}
-            className="rounded-md"
+            className="rounded-md items-center justify-center"
           >
-            <Text className="text-[#337418] text-2xl font-bold text-center">
+            <Text className="text-[#337418] text-xl  font-bold text-center">
               {btn.label}
             </Text>
           </Pressable>
@@ -158,7 +166,7 @@ const Words = () => {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              width: wp("95%"),
+              flex: 1,
               height: wp("15%"),
               padding: wp("1%"),
               marginVertical: wp("2%"),
@@ -167,40 +175,46 @@ const Words = () => {
               backgroundColor: "#f8f8f8",
             }}
           >
-            <Pressable
-              style={{ flex: 1 }}
-              onPress={() => toggleFlip(item.word)}
-            >
-              <FlipCard
-                isFlipped={flippedStates[item.word]}
-                cardStyle={{}}
-                RegularContent={
-                  <Text
-                    style={{ width: wp("72%"), height: wp("7%") }}
-                    className="text-[#5dd62c] bg-[#e6f9e8] font-bold text-2xl text-center"
-                  >
-                    {item.word}
-                  </Text>
-                }
-                FlippedContent={
-                  <Text
-                    style={{ width: wp("75%"), height: wp("7%") }}
-                    className="text-[#5dd62c]  bg-[#e6f9e8] font-bold text-2xl text-center"
-                  >
-                    {item.meaning}
-                  </Text>
-                }
-              />
-            </Pressable>
-            <Pressable
-              style={{ padding: 20 }}
-              onPress={() => deleteWord(item.word)}
-            >
-              <Image
-                source={require("../../assets/images/delete.png")}
-                style={{ width: 40, height: 40 }}
-              />
-            </Pressable>
+            <View className="flex-row justify-center items-center ">
+              <Pressable
+                style={{
+                  flex: 1,
+                  backgroundColor: "#e6f9e8",
+                  marginLeft: wp("2%"),
+                }}
+                onPress={() => toggleFlip(item.word)}
+              >
+                <FlipCard
+                  isFlipped={flippedStates[item.word]}
+                  cardStyle={{}}
+                  RegularContent={
+                    <Text
+                      style={{ height: wp("7%") }}
+                      className="text-[#2f611b] font-bold text-2xl text-center"
+                    >
+                      {item.word}
+                    </Text>
+                  }
+                  FlippedContent={
+                    <Text
+                      style={{ height: wp("7%") }}
+                      className="text-[#5dd62c]  bg-[#e6f9e8] font-bold text-2xl text-center"
+                    >
+                      {item.meaning}
+                    </Text>
+                  }
+                />
+              </Pressable>
+              <Pressable
+                style={{ padding: 20 }}
+                onPress={() => deleteWord(item.word)}
+              >
+                <Image
+                  source={require("../../assets/images/delete.png")}
+                  style={{ width: 30, height: 30 }}
+                />
+              </Pressable>
+            </View>
           </View>
         ))
       ) : (

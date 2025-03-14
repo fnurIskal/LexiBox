@@ -93,11 +93,11 @@ const Questions = ({ questionCount, type, onClose }) => {
     ) {
       console.log("true");
       setIsCorrect(true);
-      setBackgroundColor("#03ff35");
+      setBackgroundColor("#22c55e");
       await handleMastered();
     } else {
       console.log("false");
-      setBackgroundColor("#fc030f");
+      setBackgroundColor("#ef4444");
       await handleReview();
     }
 
@@ -135,35 +135,34 @@ const Questions = ({ questionCount, type, onClose }) => {
               borderRadius: 15,
             }}
           >
-            <Text className="font-bold text-6xl text-[#5dd62c]">
+            <Text className="font-bold text-3xl text-[#5dd62c]">
               {wordsArray[currentIndex].question}
             </Text>
             <TextInput
-              className="font-bold text-6xl text-[#337418]"
+              className="font-bold text-3xl text-[#337418]"
               value={inputValue}
               onChangeText={setInputValue}
               placeholder="..."
             />
-          </View>
-
-          <Pressable
-            className="flex items-center justify-center"
-            onPress={handleCheck}
-          >
-            <Text
-              style={{
-                width: wp("30%"),
-                height: wp("7%"),
-                marginTop: wp("1%"),
-              }}
-              className=" flex text-center font-bold text-2xl rounded justify-center items-center bg-[#0f0f0f] text-[#5dd62c]"
+            <Pressable
+              className="flex items-center justify-center"
+              onPress={handleCheck}
             >
-              Enter
-            </Text>
-          </Pressable>
+              <Text
+                style={{
+                  width: wp("30%"),
+                  padding: wp("2%"),
+                  marginTop: wp("10%"),
+                }}
+                className=" flex text-center font-bold text-2xl rounded-lg justify-center items-center bg-[#5dd62c] text-[#0f0f0f]"
+              >
+                Enter
+              </Text>
+            </Pressable>
+          </View>
         </>
       ) : (
-        <Text>Kelimeler yükleniyor...</Text>
+        <Text>Words Loading...</Text>
       )}
 
       <Pressable
