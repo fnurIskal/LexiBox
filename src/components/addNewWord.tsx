@@ -11,7 +11,7 @@ import CustomDropdown from "./customDropdown";
 export type Word = {
   name: string;
   meaning: string;
-  type: "noun" | "verb" | "adjective" | "adverb" | "other";
+  type: "Noun" | "Verb" | "Adjective" | "Adverb" | "Other";
   sentence?: string;
 };
 
@@ -25,7 +25,7 @@ export default function AddNewWord({ visible, onClose, onSave }: Props) {
   const [word, setWord] = useState<Word>({
     name: "",
     meaning: "",
-    type: "noun",
+    type: "Noun",
     sentence: "",
   });
 

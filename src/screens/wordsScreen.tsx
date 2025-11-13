@@ -2,19 +2,48 @@ import { View, Text, Pressable, FlatList } from "react-native";
 import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useState } from "react";
 import AddNewWord, { Word } from "@/components/addNewWord";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
-import Animated from "react-native-reanimated";
+import { WordCard } from "@/components/wordRenderItem";
+import { getWords, storeWords } from "@/utils/storage";
+import TabFilter from "@/components/tabFilter";
 
 export default function WordsScreen() {
   const [isAddWordModalVisible, setIsAddWordModalVisible] = useState(false);
   const [allWords, setAllWords] = useState<Word[]>([]);
-  const [animatedPress, setAnimatedPress] = useState(false);
+  const [filteredWords, setFilteredWords] = useState<Word[]>([]);
+
+  useEffect(() => {
+    const loadWords = async () => {
+      const storedWords = await getWords();
+      if (storedWords.length > 0) {
+        setAllWords(storedWords);
+      }
+    };
+    loadWords();
+  }, []);
+
+  useEffect(() => {
+    setFilteredWords(allWords);
+    if (allWords.length > 0) {
+      storeWords(allWords);
+    }
+  }, [allWords]);
 
   const handleNewWordSave = (word: Word) => {
     setAllWords((prevWords) => [...prevWords, word]);
+  };
+
+  const handleFilterWords = (type: string) => {
+    if (type === "All") {
+      setFilteredWords(allWords);
+    } else {
+      const filtered = allWords.filter(
+        (word) => word.type.toLowerCase() === type.toLowerCase()
+      );
+      setFilteredWords(filtered);
+    }
   };
 
   return (
@@ -22,62 +51,21 @@ export default function WordsScreen() {
       <View
         style={{
           flex: 1,
-          backgroundColor: "#FDFAF5",
           paddingHorizontal: wp("3%"),
         }}
       >
-        <Text className="text-myOrange text-3xl font-bold mb-4">My Words</Text>
-
+        <Text className="text-myOrange text-3xl font-bold ">My Words</Text>
+        <TabFilter handleFilterWords={handleFilterWords} />
         <FlatList
-          data={allWords}
+          data={filteredWords}
           keyExtractor={(item, index) => `${item.name}-${index}`}
-          renderItem={({ item }) => {
-            let itemBgColor = "#FDF07D";
-            if (item.type === "noun") {
-              itemBgColor = "#9CD8FB";
-            } else if (item.type === "verb") {
-              itemBgColor = "#F986A5";
-            } else if (item.type === "adjective") {
-              itemBgColor = "#DDAEF1";
-            } else if (item.type === "adverb") {
-              itemBgColor = "#95F45E";
-            }
-            return (
-              <Animated.View
-                style={{
-                  backgroundColor: itemBgColor,
-                  marginBottom: wp("2%"),
-                  padding: wp("4%"),
-                  borderRadius: 25,
-                }}
-                className=" border border-black flex-row justify-between items-center "
-              >
-                <Text className="text-lg font-bold">{item.name}</Text>
-                {item.sentence && (
-                  <Text className="text-gray-600">{item.sentence}</Text>
-                )}
-                <View className="flex-row">
-                  <MaterialCommunityIcons
-                    name="delete"
-                    size={24}
-                    color="black"
-                  />
-                  <MaterialCommunityIcons
-                    name="pencil"
-                    size={24}
-                    color="black"
-                  />
-                </View>
-              </Animated.View>
-            );
-          }}
+          renderItem={({ item }) => <WordCard item={item} />}
           ListEmptyComponent={
             <Text className="text-center text-gray-500 mt-10">
               No words added yet. Press '+' to add your first word!
             </Text>
           }
         />
-
         <Pressable
           onPress={() => setIsAddWordModalVisible(true)}
           style={{
