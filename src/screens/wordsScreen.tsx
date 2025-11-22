@@ -3,16 +3,20 @@ import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
-import AddNewWord, { Word } from "@/components/addNewWord";
+import AddNewWord from "@/components/addNewWord";
+import { Word } from "@/model/word";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
-import { WordCard } from "@/components/wordRenderItem";
+import { WordRenderItem } from "@/components/wordRenderItem";
 import { getWords, storeWords } from "@/utils/storage";
 import TabFilter from "@/components/tabFilter";
+import uuid from "react-native-uuid";
 
 export default function WordsScreen() {
   const [isAddWordModalVisible, setIsAddWordModalVisible] = useState(false);
   const [allWords, setAllWords] = useState<Word[]>([]);
   const [filteredWords, setFilteredWords] = useState<Word[]>([]);
+  const [wordToEdit, setWordToEdit] = useState<Word | undefined>(undefined);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   useEffect(() => {
     const loadWords = async () => {
@@ -32,7 +36,29 @@ export default function WordsScreen() {
   }, [allWords]);
 
   const handleNewWordSave = (word: Word) => {
-    setAllWords((prevWords) => [...prevWords, word]);
+    const newWordWithId: Word = {
+      ...word,
+      id: uuid.v4().toString(),
+    };
+    setAllWords((prevWords) => [...prevWords, newWordWithId]);
+  };
+
+  const handleDeleteWord = (id: string) => {
+    setAllWords((prevWords) => prevWords.filter((word) => word.id !== id));
+  };
+
+  const handleEditWord = (id: string) => {
+    const word = allWords.find((item) => item.id === id);
+    setWordToEdit(word);
+    setIsEditModalVisible(true);
+  };
+
+  const handleSaveEditedWord = (editedWord: Word) => {
+    setAllWords((prevWords) =>
+      prevWords.map((word) => (word.id === editedWord.id ? editedWord : word))
+    );
+    setIsEditModalVisible(false);
+    setWordToEdit(undefined);
   };
 
   const handleFilterWords = (type: string) => {
@@ -47,7 +73,10 @@ export default function WordsScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#FDFAF5" }}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#FDFAF5" }}
+      edges={["right", "bottom", "left"]}
+    >
       <View
         style={{
           flex: 1,
@@ -58,8 +87,14 @@ export default function WordsScreen() {
         <TabFilter handleFilterWords={handleFilterWords} />
         <FlatList
           data={filteredWords}
-          keyExtractor={(item, index) => `${item.name}-${index}`}
-          renderItem={({ item }) => <WordCard item={item} />}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <WordRenderItem
+              item={item}
+              onDelete={handleDeleteWord}
+              onEdit={handleEditWord}
+            />
+          )}
           ListEmptyComponent={
             <Text className="text-center text-gray-500 mt-10">
               No words added yet. Press '+' to add your first word!
@@ -89,6 +124,15 @@ export default function WordsScreen() {
             visible={isAddWordModalVisible}
             onClose={() => setIsAddWordModalVisible(false)}
             onSave={handleNewWordSave}
+          />
+        )}
+
+        {isEditModalVisible && wordToEdit && (
+          <AddNewWord
+            visible={isEditModalVisible}
+            onClose={() => setIsAddWordModalVisible(false)}
+            onSave={handleSaveEditedWord}
+            editingWord={wordToEdit}
           />
         )}
       </View>

@@ -6,11 +6,19 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { useState } from "react";
-import { Word } from "@/components/addNewWord";
+import { Word } from "@/model/word";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-export const WordCard = ({ item }: { item: Word }) => {
+export const WordRenderItem = ({
+  item,
+  onDelete,
+  onEdit,
+}: {
+  item: Word;
+  onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
+}) => {
   const [isFront, setIsFront] = useState(true);
   const rotation = useSharedValue(0);
 
@@ -41,11 +49,6 @@ export const WordCard = ({ item }: { item: Word }) => {
     };
   });
 
-  const handleEdit = (item: Word) => {
-    EditWordModal(item);
-  };
-  const handleDelete = (item: Word) => {};
-
   let itemBgColor = "#FDF07D";
   if (item.type === "noun") {
     itemBgColor = "#9CD8FB";
@@ -69,7 +72,13 @@ export const WordCard = ({ item }: { item: Word }) => {
       }}
       className="border border-black"
     >
-      <View style={{}}>
+      <View
+        style={{
+          minHeight: wp("10%"),
+          justifyContent: "center",
+          alignItems: "flex-start",
+        }}
+      >
         <Animated.View
           style={[
             frontAnimatedStyle,
@@ -77,9 +86,15 @@ export const WordCard = ({ item }: { item: Word }) => {
           ]}
         >
           <View>
-            <Text className="text-lg font-bold">{item.name}</Text>
+            <Text className="text-xl font-bold">{item.name}</Text>
             {item.sentence && (
-              <Text className="text-gray-600">{item.sentence}</Text>
+              <Text
+                style={{ width: wp("72%") }}
+                numberOfLines={2}
+                className="text-gray-600"
+              >
+                {item.sentence}
+              </Text>
             )}
           </View>
         </Animated.View>
@@ -88,7 +103,7 @@ export const WordCard = ({ item }: { item: Word }) => {
           style={[backAnimatedStyle, { backfaceVisibility: "hidden" }]}
         >
           <View>
-            <Text className="text-lg font-bold">{item.meaning}</Text>
+            <Text className="text-xl font-bold">{item.meaning}</Text>
           </View>
         </Animated.View>
       </View>
@@ -97,10 +112,10 @@ export const WordCard = ({ item }: { item: Word }) => {
         style={{ position: "absolute", right: wp("4%") }}
         className="flex-row"
       >
-        <Pressable onPress={() => handleDelete(item)}>
+        <Pressable onPress={() => onDelete(item.id)}>
           <MaterialCommunityIcons name="delete" size={24} color="black" />
         </Pressable>
-        <Pressable onPress={() => handleEdit(item)}>
+        <Pressable onPress={() => onEdit(item.id)}>
           <MaterialCommunityIcons name="pencil" size={24} color="black" />
         </Pressable>
       </View>

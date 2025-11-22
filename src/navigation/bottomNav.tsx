@@ -10,22 +10,7 @@ const Tab = createBottomTabNavigator();
 
 export default function BottomNav() {
   return (
-    <Tab.Navigator
-      initialRouteName="Words"
-      screenOptions={{
-        headerTitleAlign: "center",
-        headerTitle: () => {
-          return (
-            <Image
-              source={require("../assets/image/logo.png")}
-              style={{ width: wp("40%"), height: wp("10%") }}
-            />
-          );
-        },
-        tabBarInactiveTintColor: "#d4d4d4",
-        tabBarActiveTintColor: "#2619e3",
-      }}
-    >
+    <Tab.Navigator initialRouteName="Words">
       <Tab.Screen
         name="Tracker"
         component={TrackerScreen}
@@ -41,10 +26,22 @@ export default function BottomNav() {
           },
         }}
       />
+
       <Tab.Screen
         name="Words"
         component={WordsScreen}
         options={{
+          headerTitleAlign: "center",
+          headerTitle: () => {
+            return (
+              <Image
+                source={require("../assets/image/logo.png")}
+                style={{ width: wp("40%"), height: wp("10%") }}
+              />
+            );
+          },
+          tabBarInactiveTintColor: "#d4d4d4",
+          tabBarActiveTintColor: "#2619e3",
           tabBarIcon: ({ color, size, focused }) => {
             return (
               <Ionicons
@@ -60,6 +57,7 @@ export default function BottomNav() {
         name="Test"
         component={TestScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, size, focused }) => {
             return (
               <Octicons

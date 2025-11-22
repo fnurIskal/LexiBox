@@ -5,29 +5,47 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import CustomTextInput from "./customTextInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomDropdown from "./customDropdown";
-
-export type Word = {
-  name: string;
-  meaning: string;
-  type: "Noun" | "Verb" | "Adjective" | "Adverb" | "Other";
-  sentence?: string;
-};
+import { Word } from "@/model/word";
+import uuid from "react-native-uuid";
 
 type Props = {
   visible?: boolean;
   onClose: () => void;
   onSave: (word: Word) => void;
+  editingWord?: Word;
 };
 
-export default function AddNewWord({ visible, onClose, onSave }: Props) {
-  const [word, setWord] = useState<Word>({
-    name: "",
-    meaning: "",
-    type: "Noun",
-    sentence: "",
-  });
+export default function AddNewWord({
+  visible,
+  onClose,
+  onSave,
+  editingWord,
+}: Props) {
+  const [word, setWord] = useState<Word>(
+    editingWord || {
+      id: uuid.v4().toString(),
+      name: "",
+      meaning: "",
+      type: "Noun",
+      sentence: "",
+    }
+  );
+
+  useEffect(() => {
+    if (editingWord) {
+      setWord(editingWord);
+    } else {
+      setWord({
+        id: uuid.v4().toString(),
+        name: "",
+        meaning: "",
+        type: "Noun",
+        sentence: "",
+      });
+    }
+  }, [editingWord, visible]);
 
   const handleInputChange = (key: keyof Word, value: string) => {
     setWord((prevWord) => ({
@@ -38,8 +56,16 @@ export default function AddNewWord({ visible, onClose, onSave }: Props) {
 
   const handleSave = () => {
     onSave(word);
+    setWord({
+      id: uuid.v4().toString(),
+      name: "",
+      meaning: "",
+      type: "Noun",
+      sentence: "",
+    });
     onClose();
   };
+  const modalTitle = editingWord ? "Edit Word" : "Add New Word";
 
   return (
     <Modal visible={visible} transparent={true}>
@@ -57,7 +83,7 @@ export default function AddNewWord({ visible, onClose, onSave }: Props) {
               style={{ padding: wp("2%") }}
               className="text-myNavi self-start font-medium text-2xl"
             >
-              Add New Word
+              {modalTitle}
             </Text>
             <View style={{ gap: wp("3%"), marginTop: wp("2%") }}>
               <CustomTextInput
