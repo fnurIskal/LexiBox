@@ -1,4 +1,3 @@
-import TestScreen from "@/screens/testScreen";
 import TrackerScreen from "@/screens/trackerScreen";
 import WordsScreen from "@/screens/wordsScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -6,6 +5,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Octicons from "@expo/vector-icons/Octicons";
 import { Image } from "react-native";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import TestTabStack from "./testTabStack";
+
 const Tab = createBottomTabNavigator();
 
 export default function BottomNav() {
@@ -55,7 +56,7 @@ export default function BottomNav() {
       />
       <Tab.Screen
         name="Test"
-        component={TestScreen}
+        component={TestTabStack}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size, focused }) => {

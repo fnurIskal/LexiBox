@@ -16,11 +16,12 @@ export default function CustomTextInput({
 }: Props) {
   return (
     <View
-      className="bg-main border border-black rounded-3xl "
+      className="bg-main border border-black  "
       style={{
         width: wp("90%"),
         height: wp("12%"),
         paddingHorizontal: wp("2%"),
+        borderRadius: 20,
       }}
     >
       <TextInput
