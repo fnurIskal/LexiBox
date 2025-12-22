@@ -20,3 +20,23 @@ export const getWords = async () => {
     return [];
   }
 };
+
+export const updateWordAttribute = async (wordName, attribute, state) => {
+  const words = await getWords();
+  try {
+    let updatedWord = words.find((word) => word.name === wordName);
+    console.log("Original Word:", updatedWord);
+    if (state !== null) {
+      updatedWord = { ...updatedWord, [attribute]: state };
+    } else {
+      updatedWord = { ...updatedWord, [attribute]: true };
+    }
+    console.log("Updated Word:", updatedWord);
+    await storeWords([
+      ...words.filter((word) => word.name !== wordName),
+      updatedWord,
+    ]);
+  } catch (error) {
+    console.error("Failed to update words to storage", error);
+  }
+};

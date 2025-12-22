@@ -4,4 +4,7 @@ export type Word = {
   meaning: string;
   type: "Noun" | "Verb" | "Adjective" | "Adverb" | "Other";
   sentence?: string;
+  isLearned: boolean;
+  isReview: boolean;
+  isSaved: boolean;
 };

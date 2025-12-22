@@ -32,15 +32,7 @@ export default function BottomNav() {
         name="Words"
         component={WordsScreen}
         options={{
-          headerTitleAlign: "center",
-          headerTitle: () => {
-            return (
-              <Image
-                source={require("../assets/image/logo.png")}
-                style={{ width: wp("40%"), height: wp("10%") }}
-              />
-            );
-          },
+          headerShown: false,
           tabBarInactiveTintColor: "#d4d4d4",
           tabBarActiveTintColor: "#2619e3",
           tabBarIcon: ({ color, size, focused }) => {

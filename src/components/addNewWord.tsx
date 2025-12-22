@@ -30,6 +30,9 @@ export default function AddNewWord({
       meaning: "",
       type: "Noun",
       sentence: "",
+      isLearned: false,
+      isReview: false,
+      isSaved: false,
     }
   );
 
@@ -43,6 +46,9 @@ export default function AddNewWord({
         meaning: "",
         type: "Noun",
         sentence: "",
+        isLearned: false,
+        isReview: false,
+        isSaved: false,
       });
     }
   }, [editingWord, visible]);
@@ -62,6 +68,9 @@ export default function AddNewWord({
       meaning: "",
       type: "Noun",
       sentence: "",
+      isLearned: false,
+      isReview: false,
+      isSaved: false,
     });
     onClose();
   };

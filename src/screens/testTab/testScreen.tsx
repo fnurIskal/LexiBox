@@ -6,6 +6,7 @@ import CustomTextInput from "@/components/customTextInput";
 import CustomDropdown from "@/components/customDropdown";
 import { getWords } from "@/utils/storage";
 import { Word } from "@/model/word";
+import { FloatingActionButton } from "@/components/floatingActionButton";
 
 export default function TestScreen({ navigation }: { navigation: any }) {
   const [questionCount, setQuestionCount] = React.useState("");
@@ -87,8 +88,8 @@ export default function TestScreen({ navigation }: { navigation: any }) {
           >
             <Text>{wordToMeaning ? "Word to Meaning" : "Meaning to Word"}</Text>
             <Switch
-              trackColor={{ false: "#767577", true: "#D8CAFF" }}
-              thumbColor={wordToMeaning ? "#AA8FF8" : "#f4f3f4"}
+              trackColor={{ false: "#ffddad", true: "#cad8ff" }}
+              thumbColor={wordToMeaning ? "#255ad8" : "#d89220"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={setWordToMeaning}
               value={wordToMeaning}
@@ -97,14 +98,13 @@ export default function TestScreen({ navigation }: { navigation: any }) {
         </View>
         <Pressable
           onPress={handleStartTest}
-          className="bg-[#A6F986] border border-black rounded-3xl items-center justify-center"
+          className="bg-[#cad8ff] flex-row  gap-2 border border-[#255ad8] rounded-3xl items-center justify-center "
           style={{
-            width: wp("50%"),
+            width: wp("45%"),
             height: wp("12%"),
-            paddingHorizontal: wp("2%"),
           }}
         >
-          <Text className="text-lg font-medium">Start</Text>
+          <Text className="text-lg font-medium text-[#255ad8]">Start</Text>
         </Pressable>
       </View>
     </SafeAreaView>

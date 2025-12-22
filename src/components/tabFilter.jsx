@@ -12,24 +12,27 @@ export default function TabFilter({ handleFilterWords }) {
     handleFilterWords(item);
   };
   return (
-    <View style={{ marginVertical: wp(4) }}>
+    <View style={{ margin: wp("3%") }}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        <View style={{ gap: wp(2) }} className="flex-row">
+        <View style={{ gap: wp("2%") }} className="flex-row">
           {types.map((item, index) => {
             const isSelected = item === selectedItem;
             return (
               <Pressable
-                style={{ width: wp("20%") }}
+                style={{ width: wp("18%") }}
                 key={index}
                 onPress={() => handlePress(item)}
               >
                 <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
                   style={{
-                    padding: wp(2),
+                    padding: wp("2%"),
                     backgroundColor: isSelected ? "black" : "transparent",
                     color: isSelected ? "white" : "black",
+                    textAlign: "center",
                   }}
-                  className="text-lg border  rounded-lg text-center"
+                  className="text-xl text-center border rounded-md border-black"
                 >
                   {item}
                 </Text>

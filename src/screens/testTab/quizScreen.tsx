@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from "react-native";
-import React, { use } from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   widthPercentageToDP as wp,
@@ -11,7 +11,7 @@ import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { useAnimatedShake } from "@/hooks/useAnimatedShake";
 import { useAnimationBounce } from "@/hooks/useAniamtionBounce";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-
+import { updateWordAttribute } from "@/utils/storage";
 export default function QuizScreen({
   navigation,
   route,
@@ -33,15 +33,41 @@ export default function QuizScreen({
   const [score, setScore] = React.useState<number>(0);
   const [isTrue, setIsTrue] = React.useState<boolean>(false);
   const [showSentence, setShowSentence] = React.useState<boolean>(false);
+  const [isSaved, setIsSaved] = React.useState(questions[0]?.isSaved || false);
 
-  const handleAnswer = () => {
-    if (answer === questions[currentQuestion].meaning) {
+  useEffect(() => {
+    setIsSaved(questions[currentQuestion]?.isSaved || false);
+    setShowSentence(false);
+  }, [currentQuestion]);
+
+  const handleUpdateDatabase = async (prop: "isLearned" | "isReview") => {
+    const currentWordName = questions[currentQuestion].name;
+    await updateWordAttribute(currentWordName, prop);
+  };
+
+  const handleBookmark = async () => {
+    const newSavedState = !isSaved;
+    setIsSaved(newSavedState);
+
+    const currentWordName = questions[currentQuestion].name;
+    await updateWordAttribute(currentWordName, "isSaved", newSavedState);
+
+    questions[currentQuestion].isSaved = newSavedState;
+  };
+
+  const handleAnswer = async () => {
+    if (
+      answer.toLowerCase().trim() ===
+      questions[currentQuestion].meaning.toLowerCase().trim()
+    ) {
       setIsTrue(true);
       setScore(score + 1);
       bounce();
+      await handleUpdateDatabase("isLearned");
     } else {
       setIsTrue(false);
       shake();
+      await handleUpdateDatabase("isReview");
     }
     if (currentQuestion + 1 < questions.length) {
       setCurrentQuestion(currentQuestion + 1);
@@ -67,8 +93,16 @@ export default function QuizScreen({
         style={{ paddingHorizontal: wp("5%") }}
         className="flex-row justify-between w-full"
       >
-        <Ionicons name="chevron-back" size={30} color="black" />
-        <Ionicons name="bookmark-outline" size={30} color="black" />
+        <Pressable onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={30} color="black" />
+        </Pressable>
+        <Pressable onPress={handleBookmark}>
+          <Ionicons
+            name={isSaved ? "bookmark" : "bookmark-outline"}
+            size={30}
+            color="black"
+          />
+        </Pressable>
       </View>
       <Animated.View
         style={[shakeStyle, rErrorStyle, bounceStyle]}
