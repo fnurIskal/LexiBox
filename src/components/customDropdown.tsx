@@ -27,9 +27,9 @@ export default function CustomDropdown({ value, onChange, data }: Props) {
         height: wp("12%"),
         paddingHorizontal: wp("2%"),
         borderWidth: 1,
-        borderColor: "black",
+        borderColor: "#d4d4d4",
         borderRadius: 20,
-        backgroundColor: "#FDFAF5",
+        backgroundColor: "#fff",
       }}
       placeholderStyle={{ color: "gray", marginLeft: wp("2%") }}
       selectedTextStyle={{ marginLeft: wp("2%") }}

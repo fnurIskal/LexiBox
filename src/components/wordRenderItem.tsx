@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Word } from "@/model/word";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import Feather from "@expo/vector-icons/Feather";
 
 export const WordRenderItem = ({
   item,
@@ -49,15 +50,15 @@ export const WordRenderItem = ({
     };
   });
 
-  let itemBgColor = "#FDF07D";
+  let itemBgColor = "#ffdf20";
   if (item.type === "noun") {
-    itemBgColor = "#9CD8FB";
+    itemBgColor = "#8ec5ff";
   } else if (item.type === "verb") {
-    itemBgColor = "#F986A5";
+    itemBgColor = "#fda5d5";
   } else if (item.type === "adjective") {
-    itemBgColor = "#DDAEF1";
+    itemBgColor = "#dab2ff";
   } else if (item.type === "adverb") {
-    itemBgColor = "#95F45E";
+    itemBgColor = "#7bf1a8";
   }
 
   return (
@@ -70,7 +71,6 @@ export const WordRenderItem = ({
         borderRadius: 25,
         justifyContent: "center",
       }}
-      className="border border-black"
     >
       <View
         style={{
@@ -86,12 +86,11 @@ export const WordRenderItem = ({
           ]}
         >
           <View>
-            <Text className="text-xl font-bold">{item.name}</Text>
+            <Text className="text-2xl  text-[#1b2b40]">{item.name}</Text>
             {item.sentence && (
               <Text
-                style={{ width: wp("72%") }}
+                style={{ width: wp("72%"), color: "#1b2b40" }}
                 numberOfLines={2}
-                className="text-gray-600"
               >
                 {item.sentence}
               </Text>
@@ -109,14 +108,14 @@ export const WordRenderItem = ({
       </View>
 
       <View
-        style={{ position: "absolute", right: wp("4%") }}
+        style={{ position: "absolute", right: wp("4%"), gap: wp("2%") }}
         className="flex-row"
       >
         <Pressable onPress={() => onDelete(item.id)}>
-          <MaterialCommunityIcons name="delete" size={24} color="black" />
+          <Feather name="trash-2" size={24} color="#1b2b40" />
         </Pressable>
         <Pressable onPress={() => onEdit(item.id)}>
-          <MaterialCommunityIcons name="pencil" size={24} color="black" />
+          <Feather name="edit-2" size={24} color="#1b2b40" />
         </Pressable>
       </View>
     </Pressable>

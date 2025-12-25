@@ -85,12 +85,12 @@ export default function AddNewWord({
         <Animated.View entering={FadeInUp} exiting={FadeOutDown}>
           <View
             onStartShouldSetResponder={() => true}
-            style={{ width: wp("95%"), padding: wp("2%") }}
+            style={{ width: wp("95%"), padding: wp("6%") }}
             className="bg-white rounded-2xl p-4  items-center"
           >
             <Text
-              style={{ padding: wp("2%") }}
-              className="text-myNavi self-start font-medium text-2xl"
+              style={{ paddingVertical: wp("2%") }}
+              className=" self-start font-medium text-2xl"
             >
               {modalTitle}
             </Text>
@@ -124,30 +124,32 @@ export default function AddNewWord({
 
             <View
               style={{ margin: wp("3%") }}
-              className="flex-row w-full justify-around"
+              className="flex-row justify-between w-full"
             >
               <Pressable
                 onPress={onClose}
-                className="bg-[#F98688] border border-black rounded-3xl items-center justify-center "
+                className="bg-[#fff] border border-red-300 rounded-2xl items-center justify-center "
                 style={{
-                  width: wp("42%"),
+                  width: wp("40%"),
                   height: wp("12%"),
                   paddingHorizontal: wp("2%"),
                 }}
               >
-                <Text className="text-lg font-medium ">Cancel</Text>
+                <Text className="text-lg text-red-600 font-medium ">
+                  Cancel
+                </Text>
               </Pressable>
 
               <Pressable
                 onPress={handleSave}
-                className="bg-[#A6F986] border border-black rounded-3xl items-center justify-center"
+                className="bg-[#00c44e]  rounded-2xl items-center justify-center"
                 style={{
-                  width: wp("42%"),
+                  width: wp("40%"),
                   height: wp("12%"),
                   paddingHorizontal: wp("2%"),
                 }}
               >
-                <Text className="text-lg font-medium">Save</Text>
+                <Text className="text-lg text-white font-medium">Save</Text>
               </Pressable>
             </View>
           </View>

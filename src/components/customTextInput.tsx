@@ -18,7 +18,7 @@ export default function CustomTextInput({
 }: Props) {
   return (
     <View
-      className="bg-main border border-black  "
+      className="bg-white border border-[#d4d4d4]"
       style={{
         width: widthStyle ? widthStyle : wp("90%"),
         height: wp("12%"),

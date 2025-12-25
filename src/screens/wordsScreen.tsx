@@ -1,11 +1,16 @@
-import { View, Text, Pressable, FlatList, Animated } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  FlatList,
+  Animated,
+  Dimensions,
+} from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import uuid from "react-native-uuid";
-
-// Components & Models (Yolların doğru olduğundan emin ol)
 import AddNewWord from "@/components/addNewWord";
 import { Word } from "@/model/word";
 import { WordRenderItem } from "@/components/wordRenderItem";
@@ -23,6 +28,7 @@ export default function WordsScreen() {
 
   const scrollOffsetY = useRef(new Animated.Value(0)).current;
 
+  const { height: SCREEN_HEIGHT } = Dimensions.get("window");
   // Header Sabitleri
   const HEADER_MAX_HEIGHT = 200;
   const HEADER_MIN_HEIGHT = 70;
@@ -163,7 +169,7 @@ export default function WordsScreen() {
       <View style={{ flex: 1, paddingHorizontal: wp("3%") }}>
         {/* Animated FlatList Kullanımı */}
         <Animated.FlatList
-          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           data={filteredWords}
           keyExtractor={(item) => item.id}
           // Scroll olayını yakalayan kısım BURASI:
@@ -172,6 +178,7 @@ export default function WordsScreen() {
             { useNativeDriver: false } // Yükseklik animasyonu için false olmalı
           )}
           scrollEventThrottle={16} // Akıcı animasyon için önemli
+          alwaysBounceVertical={true}
           renderItem={({ item }) => (
             <WordRenderItem
               item={item}
@@ -184,7 +191,10 @@ export default function WordsScreen() {
               No words added yet. Press '+' to add your first word!
             </Text>
           }
-          contentContainerStyle={{ paddingBottom: 100 }} // Listenin en altı butonun altında kalmasın diye
+          contentContainerStyle={{
+            paddingBottom: 100,
+            minHeight: SCREEN_HEIGHT + HEADER_SCROLL_DISTANCE,
+          }}
         />
 
         <View

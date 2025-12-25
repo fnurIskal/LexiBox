@@ -16,12 +16,14 @@ export default function BottomNav() {
         name="Tracker"
         component={TrackerScreen}
         options={{
+          tabBarInactiveTintColor: "#d4d4d4",
+          tabBarActiveTintColor: "#FF6600",
           tabBarIcon: ({ color, size, focused }) => {
             return (
               <Ionicons
                 name="bar-chart-outline"
                 size={24}
-                color={focused ? "#2619e3" : "#d4d4d4"}
+                color={focused ? "#FF6600" : "#d4d4d4"}
               />
             );
           },
@@ -34,13 +36,13 @@ export default function BottomNav() {
         options={{
           headerShown: false,
           tabBarInactiveTintColor: "#d4d4d4",
-          tabBarActiveTintColor: "#2619e3",
+          tabBarActiveTintColor: "#FF6600",
           tabBarIcon: ({ color, size, focused }) => {
             return (
               <Ionicons
                 name="library-outline"
                 size={24}
-                color={focused ? "#2619e3" : "#d4d4d4"}
+                color={focused ? "#FF6600" : "#d4d4d4"}
               />
             );
           },
@@ -50,13 +52,15 @@ export default function BottomNav() {
         name="Test"
         component={TestTabStack}
         options={{
+          tabBarInactiveTintColor: "#d4d4d4",
+          tabBarActiveTintColor: "#FF6600",
           headerShown: false,
           tabBarIcon: ({ color, size, focused }) => {
             return (
               <Octicons
                 name="checklist"
                 size={24}
-                color={focused ? "#2619e3" : "#d4d4d4"}
+                color={focused ? "#FF6600" : "#d4d4d4"}
               />
             );
           },

@@ -32,7 +32,7 @@ export default function TabFilter({ handleFilterWords }) {
                     color: isSelected ? "white" : "black",
                     textAlign: "center",
                   }}
-                  className="text-xl text-center border rounded-md border-black"
+                  className="text-xl text-center border rounded-md border-slate-400"
                 >
                   {item}
                 </Text>
