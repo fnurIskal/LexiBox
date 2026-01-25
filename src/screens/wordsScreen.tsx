@@ -58,7 +58,7 @@ export default function WordsScreen() {
       ...word,
       id: uuid.v4().toString(),
     };
-    setAllWords((prevWords) => [...prevWords, newWordWithId]);
+    setAllWords((prevWords) => [newWordWithId, ...prevWords]);
   };
 
   const handleDeleteWord = (id: string) => {

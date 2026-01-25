@@ -42,7 +42,13 @@ export default function QuizScreen({
 
   const handleUpdateDatabase = async (prop: "isLearned" | "isReview") => {
     const currentWordName = questions[currentQuestion].name;
-    await updateWordAttribute(currentWordName, prop);
+    if (prop === "isLearned") {
+      await updateWordAttribute(currentWordName, "isLearned", true);
+      await updateWordAttribute(currentWordName, "isReview", false);
+    } else {
+      await updateWordAttribute(currentWordName, "isReview", true);
+      await updateWordAttribute(currentWordName, "isLearned", false);
+    }
   };
 
   const handleBookmark = async () => {
@@ -56,12 +62,14 @@ export default function QuizScreen({
   };
 
   const handleAnswer = async () => {
+    let updatedScore = score;
     if (
       answer.toLowerCase().trim() ===
       questions[currentQuestion].meaning.toLowerCase().trim()
     ) {
       setIsTrue(true);
-      setScore(score + 1);
+      updatedScore = score + 1;
+      setScore(updatedScore);
       bounce();
       await handleUpdateDatabase("isLearned");
     } else {
@@ -74,7 +82,7 @@ export default function QuizScreen({
       setAnswer("");
     } else {
       navigation.navigate("ResultScreen", {
-        score: score,
+        score: updatedScore,
         total: questions.length,
       });
     }

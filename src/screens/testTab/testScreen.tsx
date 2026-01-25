@@ -6,7 +6,6 @@ import CustomTextInput from "@/components/customTextInput";
 import CustomDropdown from "@/components/customDropdown";
 import { getWords } from "@/utils/storage";
 import { Word } from "@/model/word";
-import { FloatingActionButton } from "@/components/floatingActionButton";
 
 export default function TestScreen({ navigation }: { navigation: any }) {
   const [questionCount, setQuestionCount] = React.useState("");

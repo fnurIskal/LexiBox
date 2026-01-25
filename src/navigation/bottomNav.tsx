@@ -16,6 +16,7 @@ export default function BottomNav() {
         name="Tracker"
         component={TrackerScreen}
         options={{
+          headerShown: false,
           tabBarInactiveTintColor: "#d4d4d4",
           tabBarActiveTintColor: "#FF6600",
           tabBarIcon: ({ color, size, focused }) => {
